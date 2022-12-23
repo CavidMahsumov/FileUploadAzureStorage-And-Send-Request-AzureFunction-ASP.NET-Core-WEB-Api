@@ -1,6 +1,8 @@
 ﻿using AzureFunctionPractice.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage;
 
 namespace AzureFunctionPractice.Controllers
 {
@@ -9,24 +11,24 @@ namespace AzureFunctionPractice.Controllers
     public class FileUploadController : ControllerBase
     {
         private readonly IStorageService _storageService;
+        private readonly IConfiguration _configuration;
 
-        public FileUploadController(IStorageService storageService)
+        public FileUploadController(IStorageService storageService, IConfiguration configuration)
         {
             _storageService = storageService;
+            _configuration = configuration;
         }
+        [HttpGet("Get")]
         public IActionResult Get()
         {
             return Ok("File Upload Running ..");
         }
 
-        [HttpPost]
-        public IActionResult Upload(IFormFile file)
+        [HttpPost(nameof(UploadFile))]
+        public async Task<IActionResult> UploadFile(IFormFile file)
         {
-
-            _storageService.Upload(file);
-
-            return Ok("File Upload Succesfuly");
-
+            await _storageService.Upload(file);
+            return Ok("File Uploaded Successfully");
         }
     }
 }

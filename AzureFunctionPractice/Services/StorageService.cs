@@ -20,7 +20,7 @@ namespace AzureFunctionPractice.Services
             _configuration = configuration;
         }
 
-        public async Task Upload(IFormFile file)
+        public  async Task Upload([FromBody]IFormFile file)
         {
 
             string systemFileName = file.FileName;
@@ -37,8 +37,6 @@ namespace AzureFunctionPractice.Services
             {
                 await blockBlob.UploadFromStreamAsync(data);
             }
-
-
 
 
 
