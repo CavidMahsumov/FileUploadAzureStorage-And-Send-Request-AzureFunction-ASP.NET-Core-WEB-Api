@@ -28,6 +28,7 @@ namespace AzureFunctionPractice.Controllers
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
             await _storageService.Upload(file);
+
             return Ok("File Uploaded Successfully");
         }
     }
